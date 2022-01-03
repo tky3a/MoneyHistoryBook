@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--　startDestinationが設定されてないとクラッシュする　-->
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:tools="http://schemas.android.com/tools"
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            android:id="@+id/bottom_navigation"
+            app:startDestination="@+id/navigationInput"
+>
+
+  <fragment
+      android:id="@+id/navigationInput"
+      android:name="ja.tky.myapplication.ui.input.InputFragment"
+      android:label="@string/input"
+      tools:layout="@layout/fragment_input"
+  />
+
+  <fragment
+      android:id="@+id/navigationCalendar"
+      android:name="ja.tky.myapplication.ui.calendar.CalendarFragment"
+      android:label="@string/calendar"
+      tools:layout="@layout/fragment_calendar"
+  />
+
+</navigation>

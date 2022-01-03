@@ -37,6 +37,8 @@ android {
 }
 
 dependencies {
+    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
+
     // 参考：https://developer.android.google.cn/jetpack/androidx/releases/navigation?hl=ja
     def lifecycle_version = '2.3.0'
     def nav_version = "2.3.5"
