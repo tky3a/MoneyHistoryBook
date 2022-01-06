@@ -25,11 +25,13 @@ class MainActivity : AppCompatActivity() {
         val navController = findNavController(R.id.nav_host_fragment_activity_main)
 
         val appBarConfiguration = AppBarConfiguration(
-            // TODO: カレンダーの追加
+            // ナビゲーションで設定しているフラグメントの情報を渡す（ここの設定がされていない場合表示がうまくいかない）
             setOf(
-                R.id.navigationInput
+                R.id.navigationInput,
+                R.id.navigationCalendar
             )
         )
+        // 画面表示
         setupActionBarWithNavController(navController, appBarConfiguration)
         navView.setupWithNavController(navController)
 

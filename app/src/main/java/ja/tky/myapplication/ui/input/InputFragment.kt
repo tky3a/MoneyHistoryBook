@@ -25,12 +25,16 @@ class InputFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
 
+        // ViewModelを取得
         inputViewModel = ViewModelProvider(this).get(InputViewModel::class.java)
 
+        // ジェネレート(生成)されたBindingクラスからViewをinflateできる
         _binding = FragmentInputBinding.inflate(inflater, container, false)
-        val root: View = binding.root
+        val root: View = binding.root // 生成された階層の親となるオプションのビュー
 
         val textView: TextView = binding.tvInput
+
+        // LiveDataの値の変更を監視。変更を受け取ったらTextViewに値をセット。
         inputViewModel.text.observe(viewLifecycleOwner, Observer {
             textView.text = it
         })

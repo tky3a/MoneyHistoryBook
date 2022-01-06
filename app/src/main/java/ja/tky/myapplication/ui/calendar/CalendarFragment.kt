@@ -1,60 +1,47 @@
 package ja.tky.myapplication.ui.calendar
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import ja.tky.myapplication.R
+import android.widget.TextView
+import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
+import ja.tky.myapplication.databinding.FragmentCalendarBinding
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
-
-/**
- * A simple [Fragment] subclass.
- * Use the [CalendarFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
 class CalendarFragment : Fragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
+    private lateinit var calendarViewModel: CalendarViewModel // ViewModelの変数を定義
+    private var _binding: FragmentCalendarBinding? = null // FragmentCalendarBindingが存在していない場合はnull
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
-        }
-    }
+    // binding変数を定義
+    private val binding get() = _binding!!
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
+        inflater: LayoutInflater,
+        container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_calendar, container, false)
+        // CalendarViewModelを変数に代入　
+        calendarViewModel = ViewModelProvider(this).get(CalendarViewModel::class.java)
+        // 生成されたBindingクラスからViewをinflate
+        _binding = FragmentCalendarBinding.inflate(inflater, container, false)
+        // 生成された階層の親となるオプションのビュー
+        var root: View = _binding!!.root
+        // fragment_calendar.xmlのtvCalendarを変数に代入
+        val textView: TextView = binding.tvCalendar
+
+        // [重要] LiveDataの値の変更を監視。変更を受け取ったらTextViewに値をセット。
+        calendarViewModel.text.observe(viewLifecycleOwner, Observer {
+            textView.text = it
+        })
+
+        return root
     }
 
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment CalendarFragment.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            CalendarFragment().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
-                }
-            }
+    // 初期化？
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 }
