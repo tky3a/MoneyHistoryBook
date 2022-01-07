@@ -1,8 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+  <dimen name="_1dp">1dp</dimen>
+  <dimen name="_02dp">0.2dp</dimen>
   <dimen name="_0dp">0dp</dimen>
-  <item name="_02dp"
-        type="dimen"
-        format="float">0.2dp
-  </item>
 </resources>
