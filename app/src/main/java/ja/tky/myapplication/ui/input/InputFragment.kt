@@ -1,10 +1,13 @@
 package ja.tky.myapplication.ui.input
 
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.InputMethodManager
 import android.widget.TextView
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -19,6 +22,7 @@ class InputFragment : Fragment() {
     // onCreateView と onDestroyViewでのみ有効
     private val binding get() = _binding!!
 
+    // onCreateView: FragmentのメインコンテンツとなるViewを生成して返す必要があるライフサイクルイベント
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -30,9 +34,27 @@ class InputFragment : Fragment() {
 
         // ジェネレート(生成)されたBindingクラスからViewをinflateできる
         _binding = FragmentInputBinding.inflate(inflater, container, false)
-        val root: View = binding.root // 生成された階層の親となるオプションのビュー
+        val root: View = binding.root // 生成された階層の親となるオプションのView
 
         val textView: TextView = binding.tvInput
+        val etInput: TextView = binding.etInput
+
+        // 背景のレイアウトを取得
+        val container: ConstraintLayout = binding.inputContainer
+
+        // rootがviewになるので、View(画面)がタップされたら発火する
+        root.setOnTouchListener { v, event ->
+            println("画面がタップされました")
+            // InputMethodManagerを取得
+            val inputMethodManager: InputMethodManager =
+                activity?.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+
+            // キーボードを隠す
+            inputMethodManager.hideSoftInputFromWindow(container.windowToken, InputMethodManager.HIDE_NOT_ALWAYS)
+
+            // 背景にフォーカスを移す
+            container.requestFocus()
+        }
 
         // LiveDataの値の変更を監視。変更を受け取ったらTextViewに値をセット。
         inputViewModel.text.observe(viewLifecycleOwner, Observer {
@@ -43,7 +65,7 @@ class InputFragment : Fragment() {
 
     }
 
-    // 初期化？
+    // onDestroyView: Fragmentが破棄されるタイミングで発火
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
