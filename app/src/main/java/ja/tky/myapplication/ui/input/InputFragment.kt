@@ -1,5 +1,6 @@
 package ja.tky.myapplication.ui.input
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -23,6 +24,7 @@ class InputFragment : Fragment() {
     private val binding get() = _binding!!
 
     // onCreateView: FragmentのメインコンテンツとなるViewを生成して返す必要があるライフサイクルイベント
+    @SuppressLint("ClickableViewAccessibility")
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -36,8 +38,10 @@ class InputFragment : Fragment() {
         _binding = FragmentInputBinding.inflate(inflater, container, false)
         val root: View = binding.root // 生成された階層の親となるオプションのView
 
-        val textView: TextView = binding.tvInput
-        val etInput: TextView = binding.etInput
+        val categoryLabel: TextView = binding.tvInput
+        val tvCategoryVal: TextView = binding.tvCategoryVal
+        val tvDateVal: TextView = binding.tvDateVal
+        // val etInput: TextView = binding.etInput
 
         // 背景のレイアウトを取得
         val container: ConstraintLayout = binding.inputContainer
@@ -56,9 +60,17 @@ class InputFragment : Fragment() {
             container.requestFocus()
         }
 
-        // LiveDataの値の変更を監視。変更を受け取ったらTextViewに値をセット。
-        inputViewModel.text.observe(viewLifecycleOwner, Observer {
-            textView.text = it
+        // LiveDataの値の変更を監視。変更を受け取ったらcategoryLabelに値をセット。
+        inputViewModel.categoryLabel.observe(viewLifecycleOwner, Observer {
+            categoryLabel.text = it
+        })
+        // LiveDataの値の変更を監視。変更を受け取ったらcategoryValに値をセット。
+        inputViewModel.categoryVal.observe(viewLifecycleOwner, Observer {
+            tvCategoryVal.text = it
+        })
+        // LiveDataの値の変更を監視。変更を受け取ったらcategoryValに値をセット。
+        inputViewModel.dateVal.observe(viewLifecycleOwner, Observer {
+            tvDateVal.text = it
         })
 
         return root
@@ -70,4 +82,5 @@ class InputFragment : Fragment() {
         super.onDestroyView()
         _binding = null
     }
+
 }

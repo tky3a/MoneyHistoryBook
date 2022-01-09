@@ -7,17 +7,18 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="8dp"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:focusableInTouchMode="true"
     tools:context=".ui.input.InputFragment">
 
   <com.google.android.material.textfield.TextInputLayout
+      android:id="@+id/tiLayout"
       android:layout_width="match_parent"
       android:layout_height="wrap_content"
       style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
       android:layout_marginTop="@dimen/_20dp"
-      app:layout_constraintStart_toStartOf="parent"
+      android:paddingLeft="8dp"
+      android:paddingRight="8dp"
       app:layout_constraintTop_toTopOf="parent"
       app:layout_constraintEnd_toEndOf="parent">
 
@@ -26,22 +27,126 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:inputType="number"
-        android:hint="金額"
-    />
+        android:hint="@string/moneyJp"
+        tools:ignore="SpeakableTextPresentCheck"/>
 
-    <!-- TODO: Update blank fragment layout -->
+  </com.google.android.material.textfield.TextInputLayout>
+
+  <androidx.constraintlayout.widget.ConstraintLayout
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      app:layout_constraintVertical_weight="1"
+      android:id="@+id/categoryContainer"
+      app:layout_constraintStart_toStartOf="parent"
+      app:layout_constraintEnd_toEndOf="parent"
+      app:layout_constraintTop_toBottomOf="@+id/tiLayout"
+      android:background="@drawable/border"
+      android:layout_marginTop="@dimen/_20dp">
+
     <TextView
         android:id="@+id/tvInput"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:background="@drawable/border_bottom"
         android:text="@string/hello_blank_fragment"
-        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        android:textSize="20dp"
-        android:textAlignment="center"
+        android:textSize="20sp"
+        android:textAlignment="textStart"
+        android:padding="@dimen/_8dp"
     />
-  </com.google.android.material.textfield.TextInputLayout>
+
+    <TextView
+        android:id="@+id/tvCategoryVal"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:background="@drawable/border_bottom"
+        android:textSize="20sp"
+        android:padding="@dimen/_8dp"
+        app:layout_constraintHorizontal_weight="1"
+        android:ellipsize="end"
+        android:maxLines="1"
+        android:text=""
+        android:textAlignment="textEnd"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/tvInput"/>
+
+    <TextView
+        android:text="@string/memo"
+        android:layout_width="@dimen/_0dp"
+        android:layout_height="wrap_content"
+        android:textSize="20sp"
+        android:padding="@dimen/_8dp"
+        android:focusableInTouchMode="true"
+        android:id="@+id/tvMemoLabel"
+        android:textAlignment="textStart"
+        android:background="@drawable/border_bottom"
+        app:layout_constraintHorizontal_weight="1"
+        app:layout_constraintTop_toBottomOf="@+id/tvInput"
+        app:layout_constraintStart_toStartOf="parent"/>
+
+    <EditText
+        android:text=""
+        android:layout_width="@dimen/_0dp"
+        android:layout_height="wrap_content"
+        android:textSize="@dimen/_20sp"
+        android:ellipsize="end"
+        android:maxLines="1"
+        android:padding="@dimen/_8dp"
+        android:id="@+id/tvMemoVal"
+        android:textAlignment="textEnd"
+        android:hint="@string/memo"
+        android:inputType="text"
+        android:background="@drawable/border_bottom"
+        app:layout_constraintHorizontal_weight="1"
+        app:layout_constraintTop_toBottomOf="@+id/tvCategoryVal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/tvMemoLabel"/>
+
+    <TextView
+        android:id="@+id/tvDateLabel"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:background="@drawable/border_bottom"
+        app:layout_constraintHorizontal_chainStyle="spread"
+        android:text="@string/dateLabel"
+        app:layout_constraintTop_toBottomOf="@+id/tvMemoLabel"
+        app:layout_constraintStart_toStartOf="parent"
+        android:textSize="20sp"
+        android:textAlignment="textStart"
+        android:padding="@dimen/_8dp"
+    />
+
+    <TextView
+        android:id="@+id/tvDateVal"
+        android:layout_width="@dimen/_0dp"
+        android:layout_height="wrap_content"
+        android:background="@drawable/border_bottom"
+        android:textSize="@dimen/_20sp"
+        android:padding="@dimen/_8dp"
+        app:layout_constraintHorizontal_weight="1"
+        android:ellipsize="end"
+        android:maxLines="1"
+        android:text=""
+        android:textAlignment="textEnd"
+        app:layout_constraintTop_toBottomOf="@+id/tvMemoVal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/tvDateLabel"/>
+
+
+  </androidx.constraintlayout.widget.ConstraintLayout>
+
+  <Button
+      android:id="@+id/saveButton"
+      android:text="@string/saveStr"
+      android:textSize="@dimen/_20sp"
+      android:layout_width="@dimen/_200dp"
+      android:layout_height="wrap_content"
+      android:layout_marginTop="@dimen/_20dp"
+      app:layout_constraintTop_toBottomOf="@+id/categoryContainer"
+      app:layout_constraintStart_toStartOf="parent"
+      app:layout_constraintEnd_toEndOf="parent"
+  />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
