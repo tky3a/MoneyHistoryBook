@@ -3,10 +3,12 @@ package ja.tky.myapplication.ui.input
 import android.annotation.SuppressLint
 import android.content.Context
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
+import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.Fragment
@@ -17,8 +19,14 @@ import ja.tky.myapplication.databinding.FragmentInputBinding
 // TODO: 処理の確認
 class InputFragment : Fragment() {
 
+    // Activityに通知したいイベントをinterfaceとして定義
+    interface OnboardSignUpTermsOfServiceListener {
+        fun onClickNext()
+    }
+
     private lateinit var inputViewModel: InputViewModel
     private var _binding: FragmentInputBinding? = null
+    private var listener: OnboardSignUpTermsOfServiceListener? = null
 
     // onCreateView と onDestroyViewでのみ有効
     private val binding get() = _binding!!
@@ -41,10 +49,12 @@ class InputFragment : Fragment() {
         val categoryLabel: TextView = binding.tvInput
         val tvCategoryVal: TextView = binding.tvCategoryVal
         val tvDateVal: TextView = binding.tvDateVal
-        // val etInput: TextView = binding.etInput
+        val bottomSheetTv: LinearLayout = binding.bottomSheet
 
         // 背景のレイアウトを取得
         val container: ConstraintLayout = binding.inputContainer
+        //
+        val layoutParams = bottomSheetTv.layoutParams
 
         // rootがviewになるので、View(画面)がタップされたら発火する
         root.setOnTouchListener { v, event ->
@@ -58,6 +68,22 @@ class InputFragment : Fragment() {
 
             // 背景にフォーカスを移す
             container.requestFocus()
+        }
+
+        // TODO: タップしたらフッターにメニューが表示されるようにしているが、これをモーダルにする
+        tvCategoryVal.setOnClickListener {
+            println("it ${tvCategoryVal.text}")
+            println("${layoutParams.height}")
+            if (layoutParams.height > 0) {
+                layoutParams.height = 0
+                // Activityにアクションを通知
+                onClickNext(it)
+            } else {
+                layoutParams.height = 825
+                // Activityにアクションを通知
+                onClickNext(it)
+            }
+            bottomSheetTv.layoutParams = layoutParams
         }
 
         // LiveDataの値の変更を監視。変更を受け取ったらcategoryLabelに値をセット。
@@ -77,10 +103,38 @@ class InputFragment : Fragment() {
 
     }
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        Log.d("TAG", "onViewCreated: called")
+        super.onViewCreated(view, savedInstanceState)
+    }
+
+    // ContextにFragmentがアタッチされた際に呼び出されるメソッド
+    // フラグメントのライフサイクルにおいて、最初のメソッド
+    // フラグメントとアクティビティ（コンテクスト）が関連付けられた時に呼ばれる
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        // OnboardSignUpTermsOfServiceListener のインスタンス化
+        listener = context as? OnboardSignUpTermsOfServiceListener
+        if (listener == null) {
+            throw ClassCastException("$context must implement OnboardSignUpTermsOfServiceListener")
+        }
+    }
+
+    // フラグメントがアクティビティから切り離されるときに呼ばれるメソッド
+    override fun onDetach() {
+        super.onDetach()
+        listener = null
+    }
+
     // onDestroyView: Fragmentが破棄されるタイミングで発火
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+    }
+
+    // Activityに通知するイベントメソッド
+    private fun onClickNext(view: View) {
+        listener?.onClickNext()
     }
 
 }

@@ -149,4 +149,35 @@
       app:layout_constraintEnd_toEndOf="parent"
   />
 
+  <!-- 以下BottomSheetサンプル -->
+  <androidx.coordinatorlayout.widget.CoordinatorLayout
+      android:id="@+id/coordinatorLayout"
+      android:layout_width="match_parent"
+      android:layout_height="match_parent"
+      android:translationZ="2dp"
+      tools:layout_editor_absoluteX="-179dp"
+      tools:layout_editor_absoluteY="-16dp">
+
+    <LinearLayout
+        android:id="@+id/bottomSheet"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/_0dp"
+        android:background="@drawable/border"
+        android:orientation="vertical"
+        app:behavior_hideable="true"
+        app:behavior_peekHeight="200dp"
+        app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior">
+
+      <TextView
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:layout_marginStart="15dp"
+          android:layout_marginTop="15dp"
+          android:text="Menu"
+          android:textSize="18sp"/>
+
+    </LinearLayout>
+
+  </androidx.coordinatorlayout.widget.CoordinatorLayout>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

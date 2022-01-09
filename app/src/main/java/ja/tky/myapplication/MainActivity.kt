@@ -1,6 +1,7 @@
 package ja.tky.myapplication
 
 import android.os.Bundle
+import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
@@ -8,8 +9,10 @@ import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import ja.tky.myapplication.databinding.ActivityMainBinding
+import ja.tky.myapplication.ui.input.InputFragment
 
-class MainActivity : AppCompatActivity() {
+// InputFragmentを継承
+class MainActivity : AppCompatActivity(), InputFragment.OnboardSignUpTermsOfServiceListener {
 
     private lateinit var binding: ActivityMainBinding
 
@@ -35,5 +38,18 @@ class MainActivity : AppCompatActivity() {
         setupActionBarWithNavController(navController, appBarConfiguration)
         navView.setupWithNavController(navController)
 
+    }
+
+    // MARK: OnboardSignUpTermsOfServiceListener
+    // Fragmentで作成したinterfaceのメソッドにアクセス
+    override fun onClickNext() {
+        val navView: BottomNavigationView = binding.btmNavView
+        println("test, ${navView.visibility}")
+        if (navView.visibility == View.GONE) {
+            navView.visibility = View.VISIBLE
+        } else {
+            navView.visibility = View.GONE
+        }
+        println("どのタイミング？")
     }
 }
